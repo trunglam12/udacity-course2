@@ -13,7 +13,7 @@ export async function filterImageFromURL(inputURL: string): Promise<string> {
   return new Promise(async (resolve, reject) => {
     try {
       const photo = await Jimp.read(inputURL);
-      const outpath =
+      const outpath: string =
         FOLDER_PATH_DEFAULT+"filtered." + Math.floor(Math.random() * 2000) + ".jpg";
       await photo
         .resize(256, 256) // resize
@@ -41,12 +41,12 @@ export async function deleteLocalFiles(files: Array<string>) {
 
 // get all files in folder
 export function getAllFilePath() {
-  const folderTemp = __dirname + FOLDER_PATH_DEFAULT
-  let arrFilePaths = fs.readdirSync(folderTemp);
-  let returnFileFullPaths = []
+  const folderTemp: string = __dirname + FOLDER_PATH_DEFAULT
+  let arrFilePaths: string[] = fs.readdirSync(folderTemp);
+  let returnFileFullPaths: string[] = []
 
   for (let i in arrFilePaths) {
-    let path = __dirname + FOLDER_PATH_DEFAULT + arrFilePaths[i]
+    let path: string = __dirname + FOLDER_PATH_DEFAULT + arrFilePaths[i]
     returnFileFullPaths.push(path)
   }
   return returnFileFullPaths

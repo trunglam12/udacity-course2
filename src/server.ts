@@ -1,4 +1,5 @@
 import express from 'express';
+import { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles, getAllFilePath} from './util/util';
 
@@ -31,13 +32,16 @@ import {filterImageFromURL, deleteLocalFiles, getAllFilePath} from './util/util'
 
 
   // Displays a simple message to the user
-  app.get("/filteredimage", async (req, res) => {
-    if (req.query.image_url) {
-      let filteredpath = await filterImageFromURL(req.query.image_url)
-      res.sendFile(filteredpath, () => {
+  app.get("/filteredimage", async (req: Request, res: Response) => {
+    console.log(req.query.image_url)
+    if (req.query.image_url && req.query.image_url.length > 0) {
+      let filteredpath: string = await filterImageFromURL(req.query.image_url.toString())
+      res.status(200).sendFile(filteredpath, () => {
         let arr = getAllFilePath()
         deleteLocalFiles(arr)
       })      
+    } else{
+      res.status(422).send('Please input image url');
     }
   });
   
